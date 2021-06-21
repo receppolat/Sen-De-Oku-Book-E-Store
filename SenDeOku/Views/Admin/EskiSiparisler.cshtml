@@ -1,0 +1,31 @@
+﻿@model SenDeOku.Models.ReceiptViewModel
+@{
+    Layout = "_LayoutAdmin";
+
+}
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model.ReceiptList)
+        {
+            <div class="col-lg-4">
+                <div class="my-card border-dark mb-3" style="max-width: 18rem;">
+                    <div class="my-card-header">
+                        <a style="color:black"><b>#@item.Receipt.ReceiptID</b></a>
+                        <a style="color:black" class="pull-right">@item.Receipt.Date</a>
+                    </div>
+                    <div class="my-card-body text-dark">
+                        <a style="color:black">Durumu:@item.Receipt.Details</a><br /><br />
+                        <a style="color:black">Tutar:@item.Receipt.TotalPrice TL</a><br /><br />
+                        <a style="color:black">Müşteri Adı:@item.Customer.Name &nbsp; @item.Customer.Surname</a><br /><br />
+                        <a style="color:black">Telefon:@item.Customer.Cell </a><br /><br />
+                        <a style="color:black">Müşteri ID:@item.Customer.CustomerID </a><br /><br />
+
+                        <form>
+                            <a asp-controller="Admin" asp-action="OrdersDetails" asp-route-id="@item.Receipt.ReceiptID" style="color:white;background-color:orange; border-radius:0.8rem">&nbsp;&nbsp;&nbsp; Detayları Görüntüle&nbsp;&nbsp;&nbsp;</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,222 @@
+﻿@{
+    string title = "";
+    var nav = ViewData["Menuler"] as List<SenDeOku.Entities.Category>;
+    if ((ViewData["Name"] as string) != null)
+    {
+        title = ViewData["Name"] as string;
+
+    }
+    else
+    {
+        title = "Sen De Oku";
+
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@title</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/prettyPhoto.css" rel="stylesheet">
+    <link href="~/css/price-range.css" rel="stylesheet">
+    <link href="~/css/animate.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/responsive.css" rel="stylesheet">
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
+
+<body>
+
+    <header id="header">
+        <!--header-->
+        <div class="header_top">
+            <!--header_top-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="contactinfo">
+                            <ul class="nav nav-pills">
+                                <li><a href="#"><i class="fa fa-phone"></i> +00 000 000 00 00</a></li>
+                                <li><a href="#"><i class="fa fa-envelope"></i> sendeokur@@gmail.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+
+                    </div>
+                </div>
+            </div>
+        </div><!--/header_top-->
+
+        <div class="header-middle">
+            <!--header-middle-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 clearfix">
+                        <div class="logo pull-left">
+                            <a href="@Url.Action("Index","Kullanici")"><img src="~/mydoc/img/assets/home/sendeOku.JPG" alt="" width="200" height="50" /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 clearfix">
+                        <form method="get" asp-controller="Kullanici" asp-action="Books" >
+                            <div class="search_box pull-right" style="width:100%">
+                                <input name="key" type="text" placeholder="Kitap ara..." style="width:100%"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6 clearfix">
+                        <div class="shop-menu clearfix pull-right">
+                            <ul class="nav navbar-nav">
+                                <li><a asp-action="Account" asp-controller="User"><i class="fa fa-user"></i> Hesabım</a></li>
+                                <li><a asp-action="Card" asp-controller="Kullanici"><i class="fa fa-shopping-cart"></i> Sepetim</a></li>
+                                <li><a asp-action="Orders" asp-controller="Kullanici"><i class="fa fa-shopping-cart"></i> Siparişlerim</a></li>
+                                @using System.Security.Claims;
+                                @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == null)
+                                {
+                                    <li><a asp-action="Login" asp-controller="Kullanici"><i class="fa fa-lock"></i>Giriş Yap</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-action="Logout" asp-controller="User"><i class="fa fa-lock"></i>Çıkış Yap</a></li>
+                                }
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/header-middle-->
+
+        <div class="header-bottom">
+            <!--header-bottom-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="mainmenu pull-left">
+                            <ul class="nav navbar-nav collapse navbar-collapse">
+                                <li class="dropdown">
+                                    <a>Kategoriler<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <!--BURAYA VERİ TABANINDAN KATEGORİLER GELECEK aşağıdaki gibi-->
+                                        @{
+                                            foreach (var item in nav)
+                                            {
+                                                <li><a asp-action="Books" asp-controller="Kullanici" asp-route-id="@item.CategoryID">@item.Name</a></li>
+
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+                                <li><a href="@Url.Action("Index","Kullanici")">ANASAYFA</a></li>
+                                <li><a asp-action="Books" asp-controller="Kullanici" asp-route-id="-2">YENİ ÇIKANLAR</a></li>
+                                <li><a asp-action="Books" asp-controller="Kullanici" asp-route-id="-1">ÇOK SATANLAR</a></li>
+                                <li><a asp-action="Authors" asp-controller="Kullanici">YAZARLAR</a></li>
+                                <li><a asp-action="Publishers" asp-controller="Kullanici">KİTABEVLERİ</a></li>
+                                <li><a asp-action="Alinti" asp-controller="Kullanici">GÜNLÜK ALINTI</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div><!--/header-bottom-->
+    </header><!--/header-->
+    <div>
+        @RenderBody()
+    </div>
+    <footer id="footer">
+        <!--Footer-->
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="companyinfo">
+                            <a href="@Url.Action("Index","Kullanici")"><img src="~/mydoc/img/assets/home/sendeOku.JPG" alt="" width="200" height="50" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-widget">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="single-widget">
+                            <h2>Çalışma Saatleri</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a>Pazartesi-Cuma  |  09.00 - 19.00</a></li>
+                                <li><a><br /></a></li>
+                                <li><a>Cumartesi  |  09.00 - 13.00</a></li>
+                                <li><a><br /></a></li>
+                                <li><a>Pazar  |  KAPALI</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="single-widget">
+                            <h2>İletişim Bilgileri</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a>E-Posta: sendeokur@@gmail.com</a></li>
+                                <li><a>Telefon: +00 000 000 00 00</a></li>
+                                <li><a>Adres: İstanbul/Beyoğlu</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="single-widget">
+                            <h2>Sayfalar</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                @{
+                                    foreach (var item in nav)
+                                    {
+                                        <li><a asp-action="Books" asp-controller="Kullanici" asp-route-id="@item.CategoryID">@item.Name</a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <p class="pull-left">Copyright © 2020 Sen De Oku E-Ticaret, Tüm Hakları Saklıdır</p>
+                    <p class="pull-right">Designed by <span><a style="color:black">Recep Polat</a></span></p>
+                </div>
+            </div>
+        </div>
+
+    </footer><!--/Footer-->
+
+
+    <script src="~/js/jquery.js"></script>
+    <script src="~/mydoc/js/card.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.scrollUp.min.js"></script>
+    <script src="~/js/price-range.js"></script>
+    <script src="~/js/jquery.prettyPhoto.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/mydoc/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/main.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+        <a class="navbar-brand" href="@Url.Action("Index","Kullanici")">SEN DE OKU</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Siparişler
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="@Url.Action("Siparisler","Admin")">Güncel Siparişler</a>
+                        <a class="dropdown-item" href="@Url.Action("KargolanmisSiparisler","Admin")">Kargolanmış Siparişler</a>
+                        <a class="dropdown-item" href="@Url.Action("EskiSiparisler","Admin")">Eski Siparişler</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="@Url.Action("KitapIslemleri","Admin")">Kitap İşlemleri</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="@Url.Action("Index","Kullanici")" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Diğer İşlemler
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="@Url.Action("MenuIslemleri","Admin")">Menü İşlemleri</a>
+                        <a class="dropdown-item" href="@Url.Action("SlaytIslemleri","Admin")">Slayt İşlemleri</a>
+                        <a class="dropdown-item" href="@Url.Action("YazarIslemleri","Admin")">Yazar İşlemleri</a>
+                        <a class="dropdown-item" href="@Url.Action("YayineviIslemleri","Admin")">Kitabevi İşlemleri</a>
+                        <a class="dropdown-item" href="@Url.Action("KargoIslemleri","Admin")">Kargo İşlemleri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="@Url.Action("AlintiEkle","Admin")">Alinti Ekle</a>
+                </li>
+                <li><a class="nav-link" asp-action="Logout" asp-controller="Panel"><i class="fa fa-lock"></i>Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div>
+        @RenderBody()
+    </div>
+    <script src="~/mydoc/js/jquery-3.5.1.min.js"></script>
+    <script src="~/mydoc/js/bootstrap.min.js"></script>
+    <script src="~/mydoc/js/Admin.js"></script>
+</body>
+</html>

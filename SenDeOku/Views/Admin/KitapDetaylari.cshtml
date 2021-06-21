@@ -1,0 +1,142 @@
+﻿@model SenDeOku.Entities.Book
+
+@{
+    Layout = "_LayoutAdmin";
+    int id = 0;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Kitap Detayları</title>
+</head>
+<body>
+    <div class="container ">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2>@Html.DisplayFor(model => model.Name) | @Html.DisplayFor(model => model.Author.Name)</h2>
+                <hr />
+                <dl class="row">
+
+                    <dt class="col-sm-3">
+                        Kitap ID:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.BookID)
+                        @{
+                            id = Model.BookID;
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        ISBN:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.ISBN)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        Kitapı Adı:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        Dil:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Language)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        Yazar Adı:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Author.Name)
+                    </dd>
+
+
+                    <dt class="col-sm-3">
+                        Yayınevi Adı:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Publisher.Name)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        Çevirmen Adı:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Translater)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        Kategori Adı:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.category.Name)
+                    </dd>
+
+                    <dt class="col-md-3">
+                        Sayfa Sayısı:
+                    </dt>
+                    <dd class="col-md-9">
+                        @Html.DisplayFor(model => model.PageCount)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        Açıklama:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Information)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        Fiyat:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        İndirim Oranı:
+                    </dt>
+                    <dd class="col-sm-9">
+                        %@Html.DisplayFor(model => model.Discount)
+                    </dd>
+
+                    <dt class="col-sm-3">
+                        Stok Miktarı:
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Count)
+                    </dd>
+                </dl>
+
+            </div>
+
+            <div class="col-lg-4">
+                <br />
+                <br />
+                <br />
+
+                <dt class="col-sm-3">
+                    Fotoğraf:
+                </dt>
+                <dd class="col-sm-9">
+                    <img src="~/mydoc/img/assets/books/@Html.DisplayFor(model => model.Photo)" width="300" height="400" />
+                </dd>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="KitapDuzenle" asp-route-id="@id" style="color:red">Düzenle &nbsp;&nbsp; &nbsp;&nbsp;</a>
+            <a asp-action="KitapIslemleri" style="color:red">Geri Dön</a>
+        </div>
+
+    </div>
+</body>
+</html>

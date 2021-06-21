@@ -1,0 +1,49 @@
+﻿@model SenDeOku.Models.AuthorAddModel
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Yazar Düzenle</title>
+</head>
+<body>
+
+    <h4>Yazar Düzenle</h4>
+    <hr />
+    <div class="container">
+        <form asp-action="YazarDuzenle" method="post" class="row d-flex justify-content-center" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Author.AuthorID" value="@Model.Author.AuthorID" />
+            <div class="col mb-4">
+                <div class="form-group">
+                    <label asp-for="Author.Name" class="control-label">Yazar Adı:</label>
+                    <input asp-for="Author.Name" class="form-control" />
+                </div>
+                <img src="~/mydoc/img/assets/authors/@Html.DisplayFor(model => model.Author.Photo)" width="250" height="250" id="ImageAdd" />
+                <input class="form-control" type="file" id="ImageFileName" name="ImageFileName" value="Dosya Seç..." width="250" height="50" />
+            </div>
+            <div class="col-md-4">
+                &nbsp;
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group pull-right">
+                            <input type="submit" style="background-color:dimgray" value="Düzenle" class="btn btn-primary float-right" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <a><br /></a>
+        <a><br /></a>
+        <a><br /></a>
+        <a><br /></a>
+        <a asp-action="YazarIslemleri" style="color:red">Geri Dön</a>
+    </div>
+</body>
+</html>

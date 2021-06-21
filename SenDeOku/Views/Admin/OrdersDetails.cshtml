@@ -1,0 +1,104 @@
+﻿@model SenDeOku.Models.OrderDetails
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container ">
+    <div class="row">
+        <div class="col-lg-12">
+            <br />
+            <br />
+            <br />
+            @try
+            {
+                <div>
+                    <a style="color:black">#<b>@Model.Receipt.ReceiptID</b></a> <a class="pull-right" style="color:black">@Model.Receipt.Date </a><br /><br />
+                    <a style="color:black"><b>Toplam Fiyat: </b>@Model.Receipt.TotalPrice TL</a><br /><br />
+                    <a style="color:black"><b>Adres: </b>@Model.Customer[0].Adress</a><br /><br />
+                    @if (Model.Receipt.Details == "Sipariş Alındı")
+                    {
+                        <form method="post" asp-controller="Admin" asp-action="ChangeReceiptDetails">
+                            <input type="hidden" value="1" name="statusid" />
+                            <input type="hidden" value="@Model.Receipt.ReceiptID" name="receiptid"/>
+                            <select class="form-control mb-3" asp-for="Shipper.ShipperID" asp-items="Model.ShipperList"></select>
+                            <button class="btn btn-primary">Siparişi kargola</button>
+                        </form>
+                    }else if(Model.Receipt.Details == "Sipariş Kargoda")
+                    {
+                        <form method="post" asp-controller="Admin" asp-action="ChangeReceiptDetails">
+                            <input type="hidden" value="2" name="statusid" />
+                            <input type="hidden" value="@Model.Receipt.ReceiptID" name="receiptid"/>
+                            <div style="color:black"><b>Kargo Firması:</b>@Model.Shipper.ShipperName</div><br />
+                            <button class="btn btn-primary">Teslimatı onayla</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div style="color:black"><b>Kargo Firması:</b>@Model.Shipper.ShipperName</div><br />
+                    }
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                ISBN
+                            </th>
+                            <th scope="col">
+                                Kitap Adı
+                            </th>
+                            <th scope="col">
+                                Yazar Adı
+                            </th>
+                            <th scope="col">
+                                Yayın Evi Adı
+                            </th>
+                            <th scope="col">
+                                Adet
+                            </th>
+                            <th scope="col">
+                                Fotoğraf
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{for (int i = 0; i < Model.Books.Count; i++)
+                            {
+                                <tr>
+                                    <td scope="row">
+                                        @Model.Books[i].ISBN
+                                    </td>
+                                    <td>
+                                        @Model.Books[i].Name
+                                    </td>
+                                    <td>
+                                        @Model.Authors[i].Name
+                                    </td>
+                                    <td>
+                                        @Model.Publishers[i].Name
+                                    </td>
+                                    <td>
+                                        @Model.Orders[i].BookCount
+                                    </td>
+                                    <td>
+                                        <a>&nbsp;</a>
+                                        <a>&nbsp;</a>
+                                        <img src="~/mydoc/img/assets/books/@Model.Books[i].Photo" width="40" height="40" />
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+            catch
+            {
+
+            }
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>

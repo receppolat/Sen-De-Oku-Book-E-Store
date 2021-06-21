@@ -1,0 +1,144 @@
+﻿@model SenDeOku.Models.BookDetailsModel
+@{
+    Layout = "_LayoutKullanici";
+    int i = 0;
+    int dongu = 0;
+    int sayac = 1;
+    float price = 0;
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 padding-right">
+                <div class="product-details">
+                    <div class="col-sm-5">
+                        <div class="product-information">
+                            @{
+                                price = float.Parse(Model.Book.Price.ToString());
+                                if (Model.Book.Discount > 0)
+                                {
+                                    price *= float.Parse(Model.Book.Discount.ToString());
+                                    price /= 100;
+                                    price = (float.Parse(Model.Book.Price.ToString()) - price);
+                                }
+                            }
+                            <!--/product-information-->
+                            <h2>@Model.Book.Name  |  @Model.Book.Author.Name</h2>
+                            <p><b>Yayın Evi:</b> @Model.Book.Publisher.Name</p>
+                            <p><b>ISBN:</b> @Model.Book.ISBN</p>
+                            <p><b>Fiyatı:</b> @Model.Book.Price TL</p>
+                            <p><b>İndirimli Fiyatı:</b> @price TL (%@Model.Book.Discount)</p>
+                            <p><b>Kazancınız:</b> @(Model.Book.Price - price) TL</p>
+                            <p><b>Çevirmen:</b> @Model.Book.Translater</p>
+                            <p><b>Stok Miktarı:</b> @Model.Book.Count &nbsp;&nbsp;&nbsp;&nbsp;<b>Sayfa Sayısı:</b> @Model.Book.PageCount</p>
+                            <p><b>Kategori:</b> @Model.Book.category.Name</p>
+                            <p><b>Dili:</b> @Model.Book.Language</p>
+                            <form asp-action="Card" asp-controller="Kullanici">
+                                <input type="hidden" name="id" value="@Model.Book.BookID" />
+                                <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                            </form>
+                        </div><!--/product-information-->
+                    </div>
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-5">
+                        <img src="~/mydoc/img/assets/books/@Model.Book.Photo" height="500" width="300" alt="" />
+                    </div>
+                </div><!--/product-details-->
+
+                <div class="category-tab shop-details-tab">
+                    <!--category-tab-->
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li><a href="#benzer" data-toggle="tab">Benzer Kitaplar</a></li>
+                            <li><a href="#aciklama" data-toggle="tab">Kitap Açıklaması</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" id="benzer">
+                            <!--Kategorielre göre rastglee kitap döndürecek for döngüsü-->
+                            @for (i = 0; i < Model.BookAuthorSameDetailModel.Count; i++)
+                            {
+
+                                price = float.Parse(Model.BookAuthorSameDetailModel[i].Book.Price.ToString());
+                                if (Model.BookAuthorSameDetailModel[i].Book.Discount > 0)
+                                {
+                                    price *= float.Parse(Model.BookAuthorSameDetailModel[i].Book.Discount.ToString());
+                                    price /= 100;
+                                    price = (float.Parse(Model.BookAuthorSameDetailModel[i].Book.Price.ToString()) - price);
+                                }
+                                if (Model.BookAuthorSameDetailModel[i].Book.category.CategoryID == Model.Book.category.CategoryID)
+                                {
+                                    /* Random sayi = new Random();
+                                     int uretilen = sayi.Next(1, Model.Books.Count);
+                                     if (Model.Books[i].BookID == uretilen)
+                                     {*/
+                                    if (Model.Book.BookID != Model.BookAuthorSameDetailModel[i].Book.BookID)
+                                    {
+                                        @if (sayac > 6)
+                                        {
+                                            continue;
+                                        }
+                                        <div class="col-sm-2">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/mydoc/img/assets/books/@Model.BookAuthorSameDetailModel[i].Book.Photo" alt="" width="17" height="200" />
+                                                        <h2>@price TL</h2>
+                                                        <a asp-action="BookDetails" asp-route-id="@Model.BookAuthorSameDetailModel[i].Book.BookID" style="color:black">@Model.BookAuthorSameDetailModel[i].Book.Name <br />@Model.BookAuthorSameDetailModel[i].Author.Name</a>
+                                                        <form asp-action="Card" asp-controller="Kullanici">
+                                                            <input type="hidden" name="id" value="@Model.BookAuthorSameDetailModel[i].Book.BookID" />
+                                                            <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                @{
+                                                    sayac++;
+                                                }
+                                            </div>
+                                        </div>
+
+                                    }
+
+                                    /* }*/
+                                }
+
+
+                            }
+                            @if (sayac == 1)
+                            {
+                                <a style="color:black">Benzer kitap bulunamamıştır... Sizin için daha fazla kitap koymaya çalışıyoruz</a>
+                            }
+
+
+                        </div>
+
+
+                        <div class="tab-pane fade active in" id="aciklama">
+                            <div class="col-sm-10">
+                                <a style="color:black">@Model.Book.Name | @Model.Book.Author.Name <br /></a>
+                                <a style="color:black"><b>Açıklama</b></a>
+                                <p>@Model.Book.Information</p>
+                                <a style="color:black"><b>Kişi</b><br /></a>
+                                <a style="color:black"><b>Başlık<br /></b></a>
+                                <a style="color:black">Yorum< <br /><br /></a>
+                                <p><b>Sen De Kitabı Oku ve değerlendir.</b><br /></p>
+                                <form action="#">
+                                    <span>
+                                        <input type="email" placeholder="Yorum başlığını yazınız..." /><br /><br />
+                                    </span>
+                                    <textarea name="icerik" placeholder="Yorum içeriğinizi yazınız..."></textarea>
+                                    <button type="button" class="btn btn-default pull-right">
+                                        Kaydet
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!--/category-tab-->
+            </div>
+        </div>
+    </div>
+</section>

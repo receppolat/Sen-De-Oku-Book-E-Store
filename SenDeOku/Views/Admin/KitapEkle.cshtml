@@ -1,0 +1,91 @@
+﻿@model SenDeOku.Models.BookAddModel
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Kitap Ekle</title>
+</head>
+<body>
+
+    <h4>Kitap Ekle</h4>
+    <hr />
+    <div class="container">
+        <form asp-action="KitapEkle" asp-controller="Admin" method="post" class="row d-flex justify-content-center" enctype="multipart/form-data">
+            <div class="col-md-4">
+                <div>
+                    <div class="form-group">
+                        <label asp-for="Book.ISBN" class="control-label">ISBN Numarası:</label>
+                        <input asp-for="Book.ISBN" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Book.Name" class="control-label">Kitap Adı:</label>
+                        <input asp-for="Book.Name" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label> Yazar Adı: </label><select asp-for="Book.Author.AuthorID" asp-items="Model.Authors"></select><br />
+                    </div>
+                    <div class="form-group">
+                        <label> Yayınevi Adı: </label><select asp-for="Book.Publisher.PublisherID" asp-items="Model.Publishers"></select><br />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Book.Translater" class="control-label">Çevirmen Adı:</label>
+                        <input asp-for="Book.Translater" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Book.Count" class="control-label">Stok Miktarı:</label>
+                        <input asp-for="Book.Count" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Book.PageCount" class="control-label">Sayfa Sayısı:</label>
+                        <input asp-for="Book.PageCount" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Book.Price" class="control-label">Fiyat:</label>
+                        <input asp-for="Book.Price" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Book.Discount" class="control-label">İndirim Oranı(Örn:%30):</label>
+                        <input asp-for="Book.Discount" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Book.Language" class="control-label">Kitabın Dili:</label>
+                        <input asp-for="Book.Language" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Book.Information" class="control-label">Açıklama:</label>
+                        <input asp-for="Book.Information" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label> Kategori: </label><select asp-for="Book.category.CategoryID" asp-items="Model.Categories"></select><br />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Ekle" class="btn btn-primary" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+                <img src="~/mydoc/img/assets/noimg.jpg" width="300" height="400" id="ImageAdd" />
+                <input class="form-control" type="file" id="ImageFileName" name="ImageFileName" value="Dosya Seç..." width="400" height="50" />
+            </div>
+
+        </form>
+
+        <a><br /></a>
+        <a><br /></a>
+        <a><br /></a>
+        <a><br /></a>
+        <a asp-action="KitapIslemleri" style="color:red">Geri Dön</a>
+    </div>
+</body>
+</html>

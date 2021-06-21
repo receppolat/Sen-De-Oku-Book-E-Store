@@ -1,0 +1,35 @@
+﻿@model SenDeOku.Models.OrderModel
+@{
+    Layout = "_LayoutKullanici";
+}
+<div class="container">
+    <div class="row">
+        @for (int i = 0; i < Model.Receipt.Count; i++)
+        {
+            <div class="col-sm-3 d-flex justify-content-center">
+                <div class="my-card border-dark mb-3" style="max-width: 18rem;">
+                    <div class="my-card-header">
+                        <a style="color:black"><b>#@Model.Receipt[i].ReceiptID</b></a>
+                        <a style="color:black" class="pull-right">@Model.Receipt[i].Date</a>
+                    </div>
+                    <div class="my-card-body text-dark">
+                        <a style="color:black;font-size:small">Durumu: @Model.Receipt[i].Details</a><br /><br />
+                        @try
+                        {
+                            <a style="color:black">Kargo: @Model.Shipper[i].ShipperName</a><br /><br />
+                        }
+                        catch
+                        {
+                            <a style="color:black">Kargo: Belirlenmedi </a><br /><br />
+                        }
+
+                        <form>
+                            <a asp-route-id="@Model.Receipt[i].ReceiptID" asp-controller="Kullanici" asp-action="OrdersDetails" style="color:white;background-color:orange; border-radius:0.8rem">&nbsp;&nbsp;&nbsp; Detayları Görüntüle&nbsp;&nbsp;&nbsp;</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

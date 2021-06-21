@@ -1,0 +1,627 @@
+﻿@model SenDeOku.Models.IndexModel
+@{
+    Layout = "_LayoutKullanici";
+    int i = 0;
+    int dongu = 0;
+    float price = 0;
+}
+
+<section id="slider">
+    <!--slider-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @foreach (var item in Model.Sliders)
+                        {
+                            if (i == 0)
+                            {
+                                <div class="item active">
+                                    <div class="col-sm-11">
+                                        <img src="~/mydoc/img/assets/slider/@item.Photo" class="girl img-responsive" width="2000" height="10000" alt="">
+                                        @{
+                                            i++;
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="item">
+                                    <div class="col-sm-11">
+                                        <img src="~/mydoc/img/assets/slider/@item.Photo" class="girl img-responsive" width="2000" height="10000" alt="">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/slider-->
+
+<section>
+    <div class="container">
+        <div class="col-sm-12 padding-right">
+            <div class="features_items container">
+
+                <h2 class="title text-center" href="#" style="color:black">EN İYİLER </h2>
+                <div class="row">
+                    @{
+                        i = 0;
+                    }
+                    @foreach (var item in Model.BookNAuthorBest)
+                    {
+                        @if (item.Book.Count > 0)
+                        {
+                            @if (i == 6)
+                            {
+                                continue;
+                            }
+                            price = float.Parse(item.Book.Price.ToString());
+                            if (item.Book.Discount > 0)
+                            {
+                                price *= float.Parse(item.Book.Discount.ToString());
+                                price /= 100;
+                                price = (float.Parse(item.Book.Price.ToString()) - price);
+                            }
+                            <div class="col-sm-2">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="~/mydoc/img/assets/books/@item.Book.Photo" width="17" height="200" alt="" />
+                                            <h2>@price TL</h2>
+                                            <a style="color:black">@item.Book.Name <br /> @item.Author.Name</a>
+                                            <a class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Detaylar</a>
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+
+                                                @if (item.Book.Information.Length > 200)
+                                                {
+                                                    <p>@item.Book.Information.Substring(0, 200) ...</p>
+
+                                                }
+                                                else
+                                                {
+                                                    <p>@item.Book.Information</p>
+
+                                                }
+                                                <a style="color:black">@item.Book.Name <br /> @item.Author.Name</a>
+                                                <form asp-action="Card" asp-controller="Kullanici">
+                                                    <input type="hidden" name="id" value="@item.Book.BookID"/>
+                                                    <button class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="choose">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li><a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@item.Book.BookID">Detayları Görüntüle</a></li>
+                                        </ul>
+                                    </div>
+                                    @{
+                                        i++;
+                                    }
+
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    @if (i == 0)
+                    {
+                        <a style="color:black">Bu türde ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                    }
+                </div>
+            </div>
+
+
+            <div class="recommended_items">
+                <!--Çok Satanlar-->
+                <h2 class="title text-center" style="color:black"><a asp-action="Books" asp-controller="Kullanici" asp-route-id="-1" style="color:black">ÇOK SATANLAR</a></h2>
+                <div id="cokSatanlar" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            @{
+                                dongu = 0;
+                            }
+                            @if (Model.BookNAuthor.Count > 6)
+                            {
+                                dongu = 6;
+                            }
+                            else
+                            {
+                                dongu = Model.BookNAuthor.Count;
+                            }
+                            @for (i = 0; i < dongu; i += 1)
+                            {
+                                if (Model.BookNAuthor[i].Book.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookNAuthor[i].Book.Price.ToString());
+                                    if (Model.BookNAuthor[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookNAuthor[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookNAuthor[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookNAuthor[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookNAuthor[i].Book.BookID" style="color:black">@Model.BookNAuthor[i].Book.Name <br /> @Model.BookNAuthor[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookNAuthor[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                            @if (dongu == 0)
+                            {
+                                <a style="color:black">Bu türde ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                        <div class="item">
+                            @for (i = 6; i < Model.BookNAuthor.Count; i += 1)
+                            {
+                                if (Model.BookNAuthor[i].Book.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookNAuthor[i].Book.Price.ToString());
+                                    if (Model.BookNAuthor[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookNAuthor[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookNAuthor[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookNAuthor[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookNAuthor[i].Book.BookID" style="color:black">@Model.BookNAuthor[i].Book.Name <br /> @Model.BookNAuthor[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookNAuthor[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (dongu < 6)
+                            {
+                                <a style="color:black">Bu türde daha fazla ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+
+                        </div>
+                    </div>
+                    <a class="left recommended-item-control" href="#cokSatanlar" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="right recommended-item-control" href="#cokSatanlar" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div> <!--Çok Satanlar-->
+
+
+            <div class="recommended_items">
+                <!--EN SON ÇIKANLAR-->
+                <h2 class="title text-center" href="#" style="color:black;"><a asp-action="Books" asp-controller="Kullanici" asp-route-id="-2" style="color:black">EN SON ÇIKANLAR</a></h2>
+                <div id="sonCikanlar" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            @{
+                                dongu = 0;
+                            }
+                            @if (Model.BookNAuthorOrderByDate.Count > 6)
+                            {
+                                dongu = 6;
+                            }
+                            else
+                            {
+                                dongu = Model.BookNAuthorOrderByDate.Count;
+                            }
+                            @for (i = 0; i < dongu; i += 1)
+                            {
+                                if (Model.BookNAuthorOrderByDate[i].Book.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookNAuthorOrderByDate[i].Book.Price.ToString());
+                                    if (Model.BookNAuthorOrderByDate[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookNAuthorOrderByDate[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookNAuthorOrderByDate[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookNAuthorOrderByDate[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookNAuthorOrderByDate[i].Book.BookID" style="color:black">@Model.BookNAuthorOrderByDate[i].Book.Name <br />  @Model.BookNAuthorOrderByDate[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookNAuthorOrderByDate[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                            @if (dongu == 0)
+                            {
+                                <a style="color:black">Bu türde ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                        <div class="item">
+                            @for (i = 6; i < Model.BookNAuthorOrderByDate.Count; i += 1)
+                            {
+                                if (Model.BookNAuthorOrderByDate[i].Book.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookNAuthorOrderByDate[i].Book.Price.ToString());
+                                    if (Model.BookNAuthorOrderByDate[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookNAuthorOrderByDate[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookNAuthorOrderByDate[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookNAuthorOrderByDate[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookNAuthorOrderByDate[i].Book.BookID" style="color:black">@Model.BookNAuthorOrderByDate[i].Book.Name <br /> @Model.BookNAuthorOrderByDate[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookNAuthorOrderByDate[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                            @if (dongu < 6)
+                            {
+                                <a style="color:black">Bu türde daha fazla ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                    </div>
+                    <a class="left recommended-item-control" href="#sonCikanlar" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="right recommended-item-control" href="#sonCikanlar" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div> <!--EN SON ÇIKANLAR-->
+
+            <div class="recommended_items">
+                <!--Fırsat Köşesi-->
+                <h2 class="title text-center" style="color:black;"><a asp-action="Books" asp-controller="Kullanici" asp-route-id="-3" style="color:black">FIRSAT KÖŞESİ</a></h2>
+                <div id="firsatlar" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            @{
+                                dongu = 0;
+                            }
+                            @if (Model.BookNAuthorOrderByDiscount.Count > 6)
+                            {
+                                dongu = 6;
+                            }
+                            else
+                            {
+                                dongu = Model.BookNAuthorOrderByDiscount.Count;
+                            }
+                            @for (i = 0; i < dongu; i += 1)
+                            {
+                                if (Model.BookNAuthorOrderByDiscount[i].Book.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookNAuthorOrderByDiscount[i].Book.Price.ToString());
+                                    if (Model.BookNAuthorOrderByDiscount[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookNAuthorOrderByDiscount[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookNAuthorOrderByDiscount[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookNAuthorOrderByDiscount[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookNAuthorOrderByDiscount[i].Book.BookID" style="color:black">@Model.BookNAuthorOrderByDiscount[i].Book.Name <br /> @Model.BookNAuthorOrderByDiscount[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookNAuthorOrderByDiscount[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (dongu == 0)
+                            {
+                                <a style="color:black">Bu türde ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                        <div class="item">
+                            @for (i = 6; i < Model.BookNAuthorOrderByDiscount.Count; i += 1)
+                            {
+                                if (Model.BookNAuthorOrderByDiscount[i].Book.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookNAuthorOrderByDiscount[i].Book.Price.ToString());
+                                    if (Model.BookNAuthorOrderByDiscount[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookNAuthorOrderByDiscount[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookNAuthorOrderByDiscount[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookNAuthorOrderByDiscount[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookNAuthorOrderByDiscount[i].Book.BookID" style="color:black">@Model.BookNAuthorOrderByDiscount[i].Book.Name <br /> @Model.BookNAuthorOrderByDiscount[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookNAuthorOrderByDiscount[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (dongu < 6)
+                            {
+                                <a style="color:black">Bu türde daha fazla ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                    </div>
+                    <a class="left recommended-item-control" href="#firsatlar" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="right recommended-item-control" href="#firsatlar" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div> <!--Fırsat Köşesi-->
+
+
+            <div class="recommended_items">
+                <!--SINAVLARA HAZIRLIK KİTAPLARI-->
+                <h2 class="title text-center" href="#" style="color:black;"><a asp-action="Books" asp-controller="Kullanici" asp-route-id="-4" style="color:black">SINAVLARA HAZIRLIK KİTAPLARI</a></h2>
+                <div id="sinavaHazirlik" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            @{
+                                dongu = 0;
+                            }
+                            @if (Model.BookAuthorSHK.Count > 6)
+                            {
+                                dongu = 6;
+                            }
+                            else
+                            {
+                                dongu = Model.BookAuthorSHK.Count;
+                            }
+                            @for (i = 0; i < dongu; i += 1)
+                            {
+                                if (Model.BookAuthorSHK.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookAuthorSHK[i].Book.Price.ToString());
+                                    if (Model.BookAuthorSHK[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookAuthorSHK[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookAuthorSHK[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookAuthorSHK[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookAuthorSHK[i].Book.BookID" style="color:black">@Model.BookAuthorSHK[i].Book.Name <br /> @Model.BookAuthorSHK[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookAuthorSHK[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (dongu == 0)
+                            {
+                                <a style="color:black">Bu türde ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                        <div class="item">
+                            @for (i = 6; i < Model.BookAuthorSHK.Count; i += 1)
+                            {
+                                if (Model.BookAuthorSHK[i].Book.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookAuthorSHK[i].Book.Price.ToString());
+                                    if (Model.BookAuthorSHK[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookAuthorSHK[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookAuthorSHK[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookAuthorSHK[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookAuthorSHK[i].Book.BookID" style="color:black">@Model.BookAuthorSHK[i].Book.Name <br /> @Model.BookAuthorSHK[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookAuthorSHK[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (dongu < 6)
+                            {
+                                <a style="color:black">Bu türde daha fazla ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                    </div>
+                    <a class="left recommended-item-control" href="#sinavaHazirlik" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="right recommended-item-control" href="#sinavaHazirlik" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div> <!--SINAVLARA HAZIRLIK KİTAPLARI-->
+
+            <div class="recommended_items">
+                <!--KPSS KİTAPLARI-->
+                <h2 class="title text-center" href="#" style="color:black;"><a asp-action="Books" asp-controller="Kullanici" asp-route-id="-5" style="color:black">KPSS KİTAPLARI</a></h2>
+                <div id="kpss" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            @{
+                                dongu = 0;
+                            }
+                            @if (Model.BookAuthorKPSS.Count > 6)
+                            {
+                                dongu = 6;
+                            }
+                            else
+                            {
+                                dongu = Model.BookAuthorKPSS.Count;
+                            }
+                            @for (i = 0; i < dongu; i += 1)
+                            {
+                                if (Model.BookAuthorKPSS[i].Book.Count > 0)
+                                {
+                                    price = float.Parse(Model.BookAuthorKPSS[i].Book.Price.ToString());
+                                    if (Model.BookAuthorKPSS[i].Book.Discount > 0)
+                                    {
+                                        price *= float.Parse(Model.BookAuthorKPSS[i].Book.Discount.ToString());
+                                        price /= 100;
+                                        price = (float.Parse(Model.BookAuthorKPSS[i].Book.Price.ToString()) - price);
+                                    }
+
+                                    <div class="col-sm-2">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/mydoc/img/assets/books/@Model.BookAuthorKPSS[i].Book.Photo" width="17" height="200" alt="" />
+                                                    <h2>@price TL</h2>
+                                                    <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookAuthorKPSS[i].Book.BookID" style="color:black">@Model.BookAuthorKPSS[i].Book.Name <br /> @Model.BookAuthorKPSS[i].Author.Name</a>
+                                                    <form asp-action="Card" asp-controller="Kullanici">
+                                                        <input type="hidden" name="id" value="@Model.BookAuthorKPSS[i].Book.BookID" />
+                                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            @if (dongu == 0)
+                            {
+                                <a style="color:black">Bu türde ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                        <div class="item">
+                            @for (i = 6; i < Model.BookAuthorKPSS.Count; i += 1)
+                            {
+
+                                price = float.Parse(Model.BookAuthorKPSS[i].Book.Price.ToString());
+                                if (Model.BookAuthorKPSS[i].Book.Discount > 0)
+                                {
+                                    price *= float.Parse(Model.BookAuthorKPSS[i].Book.Discount.ToString());
+                                    price /= 100;
+                                    price = (float.Parse(Model.BookAuthorKPSS[i].Book.Price.ToString()) - price);
+                                }
+
+                                <div class="col-sm-2">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="~/mydoc/img/assets/books/@Model.BookAuthorKPSS[i].Book.Photo" width="17" height="200" alt="" />
+                                                <h2>@price TL</h2>
+                                                <a asp-action="BookDetails" asp-controller="Kullanici" asp-route-id="@Model.BookAuthorKPSS[i].Book.BookID" style="color:black">@Model.BookAuthorKPSS[i].Book.Name <br /> @Model.BookAuthorKPSS[i].Author.Name</a>
+                                                <form asp-action="Card" asp-controller="Kullanici">
+                                                    <input type="hidden" name="id" value="@Model.BookAuthorKPSS[i].Book.BookID" />
+                                                    <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (dongu < 6)
+                            {
+                                <a style="color:black">Bu türde daha fazla ürün şu an için yoktur. Sizler için daha fazla kitap getirmeye çalışıyoruz.</a>
+
+                            }
+                        </div>
+                    </div>
+                    <a class="left recommended-item-control" href="#kpss" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="right recommended-item-control" href="#kpss" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div> <!--KPSS KİTAPLARI-->
+            <label>Okumak benim tutkum diyorsanız, aradığınız her kitabı sendeoku.com'da ve mağazalarımızda bulabilirsiniz. Farklı türlerde yüzbinlerce </label>
+            <label>kitapla birlikte en çok satanlar listesinde yer alanlar ve yeni çıkan kitapların hepsi burada. Siz sadece ne okumak istediğinize karar verin!</label>
+        </div>
+    </div>
+</section>

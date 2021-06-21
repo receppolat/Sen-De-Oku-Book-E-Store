@@ -1,0 +1,49 @@
+﻿@model SenDeOku.Models.CustomerUpdateModel
+
+@{
+    Layout = "_LayoutKullanici";
+}
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index","Kullanici")">Sen De Oku</a></li>
+                <li class="active">Hesabım</li>
+            </ol>
+        </div>
+        <div class="shopper-informations">
+            <div class="row">
+                <div class="col-sm-1">
+
+                </div>
+                <div class="bill-to">
+                    <p class="d-flex justify-content-center">Hesap Bilgileri</p>
+                    <div class="form-one">
+                        <form asp-action="Account" asp-controller="User" asp-method="post">
+                            <input asp-for="Customer.Name" placeholder="İsminiz">
+                            <input asp-for="Customer.Surname" placeholder="Soyisminiz">
+                            <input asp-for="Customer.Cell" placeholder="Telefon Numaranız">
+                            <input asp-for="Customer.CardNumber" placeholder="Kart Numaranız(İlerleyen alışverişler için...)">
+                            <label>Şehir<br /></label><select asp-for="Customer.City.CityID" asp-items="Model.City"></select>
+                            <br />
+                            <br />
+                            <br />
+                            <div class="order-message">
+                                <textarea asp-for="Customer.Adress" placeholder="Ayrıntılı şekilde adres bilgilerinizi giriniz.." rows="16"></textarea>
+                            </div>
+                            <input type="submit" value="Kaydet" class="pull-right" style="background-color:orange;color:white; border-radius:0.8rem; font-size:16px" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-2">
+                    <img src="~/mydoc/img/assets/account/wallpaperDikey.jpg" width="200" height="600" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

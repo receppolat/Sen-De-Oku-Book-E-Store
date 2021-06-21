@@ -1,0 +1,119 @@
+﻿@model SenDeOku.Models.CardModel
+@{
+    Layout = "_LayoutKullanici";
+    float price = 0;
+    float toplam = 0;
+    float indirimli = 0;
+    int kargoUcreti = 0;
+    int adet = 0;
+}
+
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index","Kullanici")">Sen De Oku</a></li>
+                <li class="active">Sepetim</li>
+            </ol>
+        </div>
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Sepet Detayları</td>
+                        <td class="description">Kitap Adı</td>
+                        <td class="price">Birim Fiyat</td>
+                        <td class="price">İndirimli Fiyat</td>
+                        <td class="quantity">Adet</td>
+                        <td class="total">Toplam Fiyat</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                @for (int i = 0; i < Model.Cards.Count; i++)
+                {
+                    price = Model.Book[i].Price;
+                    if (Model.Book[i].Discount > 0)
+                    {
+                        price -= (price * Model.Book[i].Discount) / 100;
+                    }
+
+                    adet = Model.Cards[i].BookCount;
+                    toplam += (Model.Cards[i].Book.Price * adet);
+                    indirimli += ((Model.Cards[i].Book.Price - price) * adet);
+
+                    <tbody>
+                        <tr>
+                            <td class="cart_product">
+                                <a href=""><img src="~/mydoc/img/assets/books/@Model.Book[i].Photo" width="100" height="200" alt=""></a>
+                            </td>
+                            <td class="cart_description">
+                                <h4><a href="">@Model.Book[i].Name | @Model.Author[i].Name</a></h4>
+                                <p>@Model.Publisher[i].Name</p>
+                            </td>
+                            @if (Model.Book[i].Discount == 0)
+                            {
+                                <td class="cart_price">
+                                    <p>@Model.Book[i].Price TL</p>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="cart_price" style="text-decoration-line:line-through; color: #000000">
+                                    <p style="color: #ff0000; font-size:16px">@Model.Book[i].Price TL</p>
+                                </td>
+                            }
+
+                            <td class="cart_price">
+                                <p style="font-size:22px; color:black">@price TL</p>
+                            </td>
+                            <td class="cart_quantity">
+                                <div class="cart_quantity_button">
+                                    <form asp-action="OrderUpdate" asp-controller="Kullanici">
+                                        <input class="cart_quantity_input" type="text" name="count" value="@Model.Cards[i].BookCount" autocomplete="off" size="2">
+                                        <input type="hidden" name="id" value="@Model.Cards[i].CardID" />
+                                        <button class="cart_quantity_down" style="background-color:orange; color:black">Güncelle</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td class="cart_total">
+                                <p class="cart_total_price" style="font-size:22px;color:black">@(price * Model.Cards[i].BookCount) TL</p>
+                            </td>
+                            <td class="cart_delete">
+                                <form asp-action="OrderDelete" asp-controller="Kullanici">
+                                    <input type="hidden" name="id" value="@Model.Cards[i].CardID" />
+                                    <button class="cart_quantity_delete" style="background-color:orange;color:black">X</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+                @if ((toplam - indirimli) < 100)
+                {
+                    kargoUcreti = 10;
+                }
+                else
+                {
+                    kargoUcreti = 0;
+                }
+            </table>
+        </div>
+    </div>
+</section> <!--/#cart_items-->
+
+<section id="do_action">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 pull-right">
+                <div class="total_area">
+                    <ul>
+                        <li>Tutar: <span>@(toplam ) TL</span></li>
+                        <li>Kazancınız: <span>@indirimli TL</span></li>
+                        <li>Kargo Ücreti: <span>@kargoUcreti TL</span></li>
+                        <li>Toplam: <span>@(kargoUcreti + toplam - indirimli) TL</span></li>
+                    </ul>
+                    <a class="btn btn-default check_out" href="@Url.Action("Buy","Kullanici",new { totalPrice = kargoUcreti + toplam - indirimli})">Alışverişi Onayla</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/#do_action-->

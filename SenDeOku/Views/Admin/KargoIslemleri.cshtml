@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SenDeOku.Entities.Shipper>
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container ">
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="@Url.Action("KargoEkle","Admin")" style="color:white; background-color:orange; border-radius:1.0rem"> &nbsp;&nbsp;Ekle&nbsp;&nbsp;</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Kargo ID
+                        </th>
+                        <th scope="col">
+                            Kargo Adı
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ foreach (var item in Model)
+                        {
+                            <tr>
+                                <td scope="row">
+                                    @Html.DisplayFor(modelItem => item.ShipperID)
+                                </td>
+                                <td scope="row">
+                                    @Html.DisplayFor(modelItem => item.ShipperName)
+                                </td>
+                                <td>
+                                    <a asp-action="KargoDuzenle" asp-route-id="@item.ShipperID" style="color:white; background-color:gray; border-radius:0.4rem;">&nbsp;&nbsp;Düzenle&nbsp;&nbsp;</a> &nbsp;&nbsp;&nbsp;
+                                    <a asp-action="KargoSil" asp-route-id="@item.ShipperID" style="color:white; background-color:darkgray; border-radius:0.4rem">&nbsp;&nbsp;Sil&nbsp;&nbsp;</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>

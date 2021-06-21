@@ -1,0 +1,27 @@
+﻿@model SenDeOku.Models.PublisherModel
+@{
+    Layout = "_LayoutKullanici";
+}
+<br />
+<br />
+<div class="container ">
+    <div class="row ">
+        @foreach (var item in Model.Publishers)
+        {
+            <div class="col-sm-2 ">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="~/mydoc/img/assets/publishers/@item.Photo" width="200" height="100" alt="Card image cap">
+                    <div class="card-body " style="text-align:center">
+                        <a asp-action="PublisherBooks" asp-controller="Kullanici" asp-route-id="@item.PublisherID" style="color:black;"><b> @item.Name</b></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1">
+
+            </div>
+        }
+    </div>
+</div>
+<br />
+<br />
+

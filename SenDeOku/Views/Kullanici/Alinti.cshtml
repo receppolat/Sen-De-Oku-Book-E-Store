@@ -1,0 +1,38 @@
+﻿@model SenDeOku.Models.AlintiModel
+@{
+    Layout = "_LayoutKullanici";
+}
+<section>
+    <div class="container">
+        <div class="row">
+            <div>
+                <div class="blog-post-area">
+                    <h2 class="title text-center">GÜNLÜK ALINTI</h2> 
+                    <div class="single-blog-post">
+                        <div class="col-sm-4">
+                            <a>
+                                <img src="~/mydoc/img/assets/books/@Model.Book.Photo" width="150" height="500">
+                            </a>
+                            <div class="d-flex justify-content-center">
+                                <a asp-action="BookDetails" asp-route-id="@Model.Book.BookID" style="color:black">Tıkla ve Sen De Oku</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="post-meta">
+                                <h3>@Model.Book.Name | @Model.Author.Name <a style="color:black" class="pull-right"><b> <i class="fa fa-calendar"></i> @Model.Alinti.Date</b></a></h3>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <p>&nbsp;&nbsp;&nbsp;@Model.Alinti.AlintiInformation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
